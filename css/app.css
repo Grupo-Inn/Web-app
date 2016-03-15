@@ -1,0 +1,30 @@
+/* 
+    CSS for Grupo inn
+    Author: Edgar Castro
+    Mail: edgar.castro.villa@outlook.com
+    Version: 0.1
+*/
+#profile {
+    padding-top: 5px;
+    text-align: center;
+}
+
+#profile img{
+    height: 200px;
+    width: 200px;
+}
+
+#likes {
+    display: block;
+    padding: 10px 5px;
+    width: 100%;
+    
+}
+
+#likes > button {
+    margin-right: 2px;
+}
+
+.are-you-sure {
+    text-align: center;
+}
