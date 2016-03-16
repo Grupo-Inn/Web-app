@@ -9,6 +9,7 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -21,39 +22,70 @@
 </head>
 
 <body ng-controller="profileController">
-    <div id="profile">
-        <img src="http://localhost/image/perfil-1.png" alt="..." class="img-circle img-thumbnail center-block">
+    <div class="container-fluid">
+        <div id="profile">
+            <img src="http://exelzeitgeister.com/contenido/uploads/South-Park-Avatar-Exel-2.png" alt="..." class="img-circle img-thumbnail center-block">
 
-        <h3>{{profile.name}}</h3>
+            <h3>{{profile.name}}</h3>
 
-        <button class="btn btn-default">Actualizar datos</button>
-        <button class="btn btn-default">Agregar gustos</button>
+            <button class="btn btn-default" ng-click="editable()">Actualizar datos</button>
+            <button class="btn btn-default">Agregar gustos</button>
 
-        <div id="likes">
+            <div id="likes">
 
-            <button class="btn" data-toggle="modal" data-target=".are-you-sure" ng-repeat="like in likes">{{like.name}}</button>
+                <button class="btn" data-toggle="modal" data-target=".are-you-sure" ng-repeat="like in likes">{{like.name}}</button>
+            </div>
+
+
+
         </div>
-        
-        
 
+        <div id="editProfile" ng-show="edit" class="ng-hide">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="sr-only" for="name">Name</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                        <input type="text" class="form-control" id="name" placeholder="Nombres" value="{{profile.name}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="email">Email</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
+                        <input type="text" class="form-control" id="email" placeholder="Email" value="{{profile.email}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="phone">Email</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                        <input type="phone" class="form-control" id="phone" placeholder="Telefono" value="{{profile.phone}}">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
+        </div>
     </div>
 
-<!--Modal para confirmar eliminación de gustos-->
-        <div class="modal fade are-you-sure" tabindex="-1" role="dialog" aria-labelledby="areYouSure">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                   <div class="modal-body">
+
+    <!--Modal para confirmar eliminación de gustos-->
+    <div class="modal fade are-you-sure" tabindex="-1" role="dialog" aria-labelledby="areYouSure">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             <h4>¿Estas seguro de eliminar este gusto?</h4>
                         </div>
                     </div>
-                        <button class="btn btn-danger">Si</button>
-                        <button class="btn btn-default">Cancelar</button>
-                    </div>
+                    <button class="btn btn-danger">Si</button>
+                    <button class="btn btn-default">Cancelar</button>
                 </div>
             </div>
-        </div><!--Fin Modal-->
+        </div>
+    </div>
+    <!--Fin Modal-->
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
