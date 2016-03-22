@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html lang="es" ng-app = "profile">
+<html lang="es" ng-app="grupoinn">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Grupon inn</title>
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Angular Material stylesheet -->
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <!-- Grupoinn stylesheet -->
+    <link href="css/app.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -14,39 +19,60 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <!-- Angular JS-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.5.2/angular-route.min.js"></script>
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-messages.min.js"></script>
+    <!-- Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+    <!-- Grupoinn JS-->
+    <script src="js/angular-local-storage.min.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
 </head>
 
-<body ng-controller="profileController">
+<body>
 
-    <label>Editar perfil
-        <input type="checkbox" ng-model="editable">
-    </label>
+    <div layout="column" layout-fill ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <a href="#/"><span>Grupo inn</span></a>
+                <!-- fill up the space between left and right area -->
+                <span flex></span>
+                <md-button ng-href="#/user/" class="md-icon-button" aria-label="User">
+                    <md-tooltip>
+                        Usuario
+                    </md-tooltip>
+                    <i class="fa fa-user fa-2x"></i>
+                </md-button>
+                <!--<md-button class="md-icon-button" aria-label="Notification">
+                    <md-tooltip>
+                        Notificaciones
+                    </md-tooltip>
+                    <i class="fa fa-bell fa-2x"></i>
+                </md-button>-->
+                <md-menu>
+                    <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="More" md-prevent-menu-close="md-prevent-menu-close">
+                        <md-tooltip>
+                            M&aacute;s
+                        </md-tooltip>
+                        <i class="fa fa-ellipsis-v fa-2x"></i>
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item>
+                            <md-button>Cerrar Sesion</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
+        </md-toolbar>
+        <md-content ng-view>
 
-    <input type="text" ng-model="profile.name" ng-readonly="!editable">
-    <input type="email" ng-model="profile.email" ng-readonly="!editable">
-    <input type="phone" ng-model="profile.phone" ng-readonly="!editable">
-
-    <form ng-submit="addLike()">
-        <select name="likes" id="Likes">
-        
-               <option value="{{like.id}}" ng-repeat="like in likes">{{like.name}}</option>
-        </select>
-        <input type="submit" value="Agregar">
-    </form>
-
-<ul>
-    <li ng-repeat="like in likes">
-        <span> {{ like.name }} </span>
-    </li>
-</ul>
-
-{{select}}
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
+        </md-content>
+    </div>
 </body>
+
 </html>
