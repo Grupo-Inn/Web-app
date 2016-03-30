@@ -1,21 +1,38 @@
 /*JS_for_Grupo_inn = {Author: Edgar Castro, Mail: edgar.castro.villa@outlook.com, Version: 0.1}*/
-angular.module("grupoinn", ["ngRoute", "ngMaterial", "LocalStorageModule"])
+angular.module("grupoinn", ["ngRoute", "ngMaterial", "LocalStorageModule", "ngResource"])
     .config(function ($routeProvider) {
         $routeProvider
             .when("/", {
-                controller: "feedController",
-                templateUrl: "templates/feed.html"
+                controller: "initController",
+                templateUrl: "templates/home.html"
             })
-            .when("/event/:id", {
+            .when("/events/", {
+                controller: "eventsController",
+                templateUrl: "templates/events.tmpl.html"
+            })
+            .when("/events/:id", {
                 controller: "eventController",
-                templateUrl: "templates/event.html"
+                templateUrl: "templates/event.tmpl.html"
+            })
+            .when("/reservation/", {
+                controller: "reservationController",
+                templateUrl: "templates/reservation.html"
             })
             .when("/user/", {
                 controller: "profileController",
-                templateUrl: "templates/profile.html"
+                templateUrl: "templates/profile.tmpl.html"
             })
             .when("/user/edit/", {
                 controller: "profileController",
-                templateUrl: "templates/edit_profile.html"
+                templateUrl: "templates/edit_profile.tmpl.html"
             })
+            .when("/signin/", {
+                controller: "signInController",
+                templateUrl: "templates/sign_in.tmpl.html"
+            })
+    })
+    .config(function ($mdThemingProvider) {
+        $mdThemingProvider.theme('default')
+            .primaryPalette('cyan')
+            .accentPalette('amber');
     });

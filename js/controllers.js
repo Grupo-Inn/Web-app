@@ -1,6 +1,85 @@
 /*JS_for_Grupo_inn = {Author: Edgar Castro, Mail: edgar.castro.villa@outlook.com, Version: 0.1}*/
-var host = "http://localhost/grupoinn/mobile/php/manage.php";
+//var host = "http://localhost/grupoinn/mobile/php/manage.php";
+var host = "http://grupoinn.com.co/php/manage.php";
 angular.module("grupoinn")
+    .controller("parentController", function ($scope, localStorageService, $location) {
+        if (typeof localStorageService.get("auth_token") !== 'undefined') {
+            console.log("Autorizado");
+        } else {
+            console.log("No Autorizado");
+            $location.path("/signin");
+        }
+        $scope.signout = function () {
+            localStorageService.remove("auth_token");
+            $location.path("/signin");
+        };
+    })
+    .controller("initController", function ($scope, localStorageService, $location) {
+
+
+    })
+    .controller("eventsController", function ($scope, $http, $mdDialog, $resource, localStorageService, $mdSidenav) {
+        /*$http.get(host + "?option=feed")
+            .success(function (reply) {
+                $scope.events = reply;
+            })
+            .error(function (reply) {
+                console.log(reply)
+            });*/
+        Events = $resource("http://limitless-gorge-37168.herokuapp.com/api/events/:id/?format=json", {
+            id: "@id"
+        });
+        $scope.events = Events.query();
+        $scope.showFilter = function (ev) { //Configurar para filtrar los eventos
+            var confirm = $mdDialog.confirm()
+                .clickOutsideToClose(true)
+                .title('Confirmacion')
+                .textContent('¿Estas seguro de eliminar este gusto?')
+                .ariaLabel('Lucky day')
+                .targetEvent(ev)
+                .ok('Eliminar')
+                .cancel('Cancelar');
+            $mdDialog.show(confirm).then(function () {
+                //Confirmacion
+            }, function () {
+                //Cancelar
+            });
+        };
+        $scope.openLeftMenu = function () {
+            $mdSidenav('left').toggle();
+        };
+    })
+    .controller("eventController", function ($scope, $http, $routeParams, localStorageService, $resource) {
+        Events = $resource("http://limitless-gorge-37168.herokuapp.com/api/events/:id/?format=json", {
+            id: "@id"
+        });
+        $scope.event = Events.get({
+            id: $routeParams.id
+        });
+        /*$http.get(host + "?option=detail&idEvent=" + $routeParams.id)
+            .success(function (reply) {
+                $scope.event = reply;
+            })
+            .error(function (reply) {
+                console.log(reply);
+            });*/
+        $scope.join = function () {
+            //Aqui se une al evento
+            $http.post("http://limitless-gorge-37168.herokuapp.com/api/groups/", {
+                    event: 1
+                })
+                //$http.get(host + "?option=join&idUser=" + localStorageService.get("data-user") + "&idEvent=" + $routeParams.id)
+                .success(function (reply) {
+                    console.log(reply);
+                })
+                .error(function (reply) {
+                    console.log(reply);
+                });
+        };
+    })
+    .controller("reservationController", function ($scope) {
+
+    })
     .controller("profileController", function ($scope, $http, $mdDialog) {
         $http.get(host + "?option=profile&idUser=1")
             .success(function (reply) {
@@ -16,11 +95,6 @@ angular.module("grupoinn")
             .error(function (reply) {
                 console.log(reply);
             });
-        $scope.edit = false;
-        $scope.editable = function () {
-            $scope.edit = !($scope.edit);
-        };
-
         $scope.addLike = function () {
             var i = document.getElementById("Likes").value;
             $scope.likes.push({
@@ -50,45 +124,27 @@ angular.module("grupoinn")
                 //Cancelar
             });
         };
+        $scope.update = function () {
+            //Actualizar informacion
+            console.log("actualizado");
+        };
     })
-    .controller("eventController", function ($scope, $http,  $routeParams) {
-        $http.get(host+"?option=detail&idEvent=" + $routeParams.id)
-            .success(function (reply) {
-                $scope.event = reply;
-            })
-            .error(function (reply) {
-                console.log(reply);
-            });
-    })
-    .controller("loginController", function ($scope, $http, localStorageService) {
-        if (localStorageService.get("data-user")) {
-            window.location.href = "profile.html";
+    .controller("signInController", function ($scope, $http, localStorageService, $location) {
+        if (localStorageService.get("auth_token")) {
+            $location.path("/events");
         } else {
-            $scope.login = function (user) {
-                $http.get(host+"?option=login&username=" + user.username + "&password=" + user.password)
+            $scope.login = function () {
+                $http.post("http://limitless-gorge-37168.herokuapp.com/api/auth/login/?format=json", { //{username: "sairth19", password: "term2tjd1992nys"}
+                        username: $scope.user.name,
+                        password: $scope.user.pass
+                    })
                     .success(function (reply) {
-                        if (reply.status === "OK") {
-                            localStorageService.set("data-user", reply.idUser);
-                            window.location.href = "profile.html";
-                        }
+                        localStorageService.set("auth_token", reply.auth_token);
+                        $location.path("/events");
                     })
                     .error(function (reply) {
-                        console.log(reply);
+                        console.log("datos equivocados" + reply);
                     });
             };
         }
-    })
-    .controller("feedController", function ($scope, $http) {
-        $scope.limit = 5;
-        $http.get(host+"?option=feed")
-            .success(function (reply) {
-                $scope.events = reply;
-            })
-            .error(function (reply) {
-                console.log(reply)
-            });
-
-        $scope.loadMore = function () {
-            $scope.limit += 5;
-        };
     });

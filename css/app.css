@@ -4,6 +4,10 @@
     Mail: edgar.castro.villa@outlook.com
     Version: 0.1
 */
+.primary-text{
+    color: white;
+}
+
 #profile {
     padding-top: 5px;
     text-align: center;
@@ -26,3 +30,50 @@
 }
 
 
+#sign-in {
+    width: 90%;
+    margin: 15px auto;
+    border-radius: 5px;
+    z-index: 1;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.2s ease-in-out;
+}
+
+#sign-in md-input-container {
+    width: 90%;
+    display: block;
+    margin-left: 5%;
+}
+
+.sign-actions{
+    width: 90%;
+    display: block;
+    margin-left: 5%;
+}
+
+
+#editProfile {
+    margin: auto;
+}
+
+#editProfile {
+    width: 80%;
+    margin-left: 10%;
+}
+
+#editProfile md-input-container{
+    display: block;
+}
+
+.event-img{
+    height: 200px;
+}
+
+@media (min-width: 768px){
+    .event-img{
+    height: 300px;
+}
+    #sign-in {
+        width: 60%;
+    }
+}

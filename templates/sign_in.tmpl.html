@@ -1,0 +1,18 @@
+<div id="sign-in" layout="column">
+   <h1 class="md-display-3">Inicia Sesion</h1>
+    <form ng-submit="login()">
+        <md-input-container flex>
+            <label>Usuario</label>
+            <md-icon><i class="fa fa-user"></i></md-icon>
+            <input type="text" ng-model="user.name" required>
+        </md-input-container>
+        <md-input-container flex>
+            <label>Contraseña</label>
+            <md-icon><i class="fa fa-key"></i></md-icon>
+            <input type="password" ng-model="user.pass" required>
+        </md-input-container>
+        <div flex class="sign-actions">
+            <md-button class="md-raised" type="submit">Entrar</md-button>
+        </div>
+    </form>
+</div>

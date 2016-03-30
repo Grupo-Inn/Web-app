@@ -1,0 +1,80 @@
+<div layout="row">
+    <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop md-whiteframe="4">
+        <md-button ng-href="#/events/" class="md-raised md-accent" aria-label="Eventos">
+                    Eventos
+                </md-button>
+                <md-button ng-href="#/reservation/" class="md-raised md-accent" aria-label="Reservas" hide>
+                    Reservas
+                </md-button>
+    </md-sidenav>
+    <md-content flex>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <md-button ng-click="openLeftMenu()" class="md-icon-button" aria-label="User" hide-gt-md>
+                    <i class="fa fa-bars fa-2x primary-text"></i>
+                </md-button>
+                <a href="#/"><h2><span class="primary-text">Grupo inn</span></h2></a>
+                <!-- fill up the space between left and right area -->
+                <span flex></span>
+                <md-button ng-href="#/user/" class="md-icon-button" aria-label="User">
+                    <md-tooltip>
+                        Usuario
+                    </md-tooltip>
+                    <i class="fa fa-user fa-2x primary-text"></i>
+                </md-button>
+                <!--<md-button class="md-icon-button" aria-label="Notification">
+                    <md-tooltip>
+                        Notificaciones
+                    </md-tooltip>
+                    <i class="fa fa-bell fa-2x"></i>
+                </md-button>-->
+                <md-menu>
+                    <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="More" md-prevent-menu-close="md-prevent-menu-close">
+                        <md-tooltip>
+                            M&aacute;s
+                        </md-tooltip>
+                        <i class="fa fa-ellipsis-v fa-2x primary-text"></i>
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item>
+                            <md-button ng-click="signout()">Cerrar Sesion</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
+        </md-toolbar>
+        <md-content>
+            <div layout="row" layout-xs="column">
+    <!--<div id="filters" flex-gt-xs="30" flex="100">
+       <md-toolbar show-xs hide>
+          <div class="md-toolbar-tools">
+
+          <span flex></span>
+           <md-button class="md-icon-button" aria-label="Filter" ng-click="showFilter()"><i class="fa fa-filter fa-2x"></i></md-button>
+           </div>
+       </md-toolbar>
+
+    </div>-->
+    <div id="feed" flex>
+        <md-card ng-repeat="event in events">
+            <md-card-title>
+                <md-card-title-media>
+                    <div class="md-media-sm card-media"><img style="width: 80px; height: 130px;" ng-src="{{event.url_image}}" alt=""></div>
+                </md-card-title-media>
+                <md-card-title-text style="padding-left: 10px;">
+                    <span class="md-headline">{{event.name}}</span>
+                   <!-- <span class="md-subhead">{{event.description}} <br> {{event.num_p}}</span>-->
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+                <!--<md-button>Reservar</md-button>-->
+                <md-button ng-href="#/events/{{event.id}}">Ver</md-button>
+            </md-card-actions>
+        </md-card>
+    </div>
+</div>
+
+        </md-content>
+    </md-content>
+
+</div>
