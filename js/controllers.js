@@ -182,18 +182,20 @@ angular.module("grupoinn")
         }
     })
     .controller("registerController", function ($scope, $http, $location) {
-        $http({
-            method: 'POST',
-            url: 'http://limitless-gorge-37168.herokuapp.com/api/auth/register/',
-            data: {
-                username: $scope.user.name,
-                password: $scope.user.pass,
-                email: $scope.user.mail
-            }
-        }).then(function successCallback(response) {
-            console.log("Exito" + response);
+        $scope.register = function () {
+            $http({
+                method: 'POST',
+                url: 'http://limitless-gorge-37168.herokuapp.com/api/auth/register/',
+                data: {
+                    username: $scope.user.name,
+                    password: $scope.user.pass,
+                    email: $scope.user.mail
+                }
+            }).then(function successCallback(response) {
+                console.log("Exito" + response);
 
-        }, function errorCallback(response) {
-            console.log("Error" + response);
-        });
+            }, function errorCallback(response) {
+                console.log("Error" + response);
+            });
+        };
     });
