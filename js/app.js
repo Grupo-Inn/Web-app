@@ -30,6 +30,10 @@ angular.module("grupoinn", ["ngRoute", "ngMaterial", "LocalStorageModule", "ngRe
                 controller: "signInController",
                 templateUrl: "templates/sign_in.tmpl.html"
             })
+            .when("/register/", {
+                controller: "registerController",
+                templateUrl: "templates/register.tmpl.html"
+            })
     })
     .config(function ($mdThemingProvider) {
         $mdThemingProvider.theme('default')

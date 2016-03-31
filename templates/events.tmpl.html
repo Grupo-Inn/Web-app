@@ -1,11 +1,17 @@
 <div layout="row">
     <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop md-whiteframe="4">
-        <md-button ng-href="#/events/" class="md-raised md-accent" aria-label="Eventos">
-                    Eventos
-                </md-button>
-                <md-button ng-href="#/reservation/" class="md-raised md-accent" aria-label="Reservas" hide>
-                    Reservas
-                </md-button>
+        <md-list>
+            <md-list-item class="md-3-line" ng-href="#/user/">
+                <img ng-src="http://grupoinn.com.co/images/perfil-1.png" class="md-avatar" />
+                <div class="md-list-item-text" layout="column">
+                    <h3>Nombre</h3>
+                    <h4>Algo</h4>
+                </div>
+            </md-list-item>
+            <md-list-item ng-href="#/events/">
+                <span>Eventos</span>
+            </md-list-item>
+        </md-list>
     </md-sidenav>
     <md-content flex>
         <md-toolbar>
@@ -43,9 +49,9 @@
                 </md-menu>
             </div>
         </md-toolbar>
-        <md-content>
-            <div layout="row" layout-xs="column">
-    <!--<div id="filters" flex-gt-xs="30" flex="100">
+
+        <div layout="row" layout-xs="column">
+            <!--<div id="filters" flex-gt-xs="30" flex="100">
        <md-toolbar show-xs hide>
           <div class="md-toolbar-tools">
 
@@ -55,26 +61,25 @@
        </md-toolbar>
 
     </div>-->
-    <div id="feed" flex>
-        <md-card ng-repeat="event in events">
-            <md-card-title>
-                <md-card-title-media>
-                    <div class="md-media-sm card-media"><img style="width: 80px; height: 130px;" ng-src="{{event.url_image}}" alt=""></div>
-                </md-card-title-media>
-                <md-card-title-text style="padding-left: 10px;">
-                    <span class="md-headline">{{event.name}}</span>
-                   <!-- <span class="md-subhead">{{event.description}} <br> {{event.num_p}}</span>-->
-                </md-card-title-text>
-            </md-card-title>
-            <md-card-actions layout="row" layout-align="end center">
-                <!--<md-button>Reservar</md-button>-->
-                <md-button ng-href="#/events/{{event.id}}">Ver</md-button>
-            </md-card-actions>
-        </md-card>
-    </div>
-</div>
+            <div id="feed" flex>
+                <md-card ng-repeat="event in events">
+                    <md-card-title>
+                        <md-card-title-media>
+                            <div class="md-media-sm card-media"><img style="width: 80px; height: 130px;" ng-src="{{event.url_image}}" alt=""></div>
+                        </md-card-title-media>
+                        <md-card-title-text style="padding-left: 10px;">
+                            <span class="md-headline">{{event.name}}</span>
+                            <!-- <span class="md-subhead">{{event.description}} <br> {{event.num_p}}</span>-->
+                        </md-card-title-text>
+                    </md-card-title>
+                    <md-card-actions layout="row" layout-align="end center">
+                        <!--<md-button>Reservar</md-button>-->
+                        <md-button ng-href="#/events/{{event.id}}">Ver</md-button>
+                    </md-card-actions>
+                </md-card>
+            </div>
+        </div>
 
-        </md-content>
+
     </md-content>
-
 </div>

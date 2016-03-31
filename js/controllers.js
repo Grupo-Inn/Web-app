@@ -2,34 +2,48 @@
 //var host = "http://localhost/grupoinn/mobile/php/manage.php";
 var host = "http://grupoinn.com.co/php/manage.php";
 angular.module("grupoinn")
-    .controller("parentController", function ($scope, localStorageService, $location) {
-        if (typeof localStorageService.get("auth_token") !== 'undefined') {
-            console.log("Autorizado");
+    .controller("parentController", function ($scope, localStorageService, $location, $mdSidenav, $http) {
+        /*if (localStorageService.get("auth_token")) {
+            //Verificar que el token es valido en el backend
+
         } else {
             console.log("No Autorizado");
             $location.path("/signin");
-        }
+        }*/
         $scope.signout = function () {
-            localStorageService.remove("auth_token");
-            $location.path("/signin");
+            $http({
+                method: 'POST',
+                url: 'http://limitless-gorge-37168.herokuapp.com/api/auth/logout/',
+                headers: {
+                    'Authorization': 'Token ' + localStorageService.get("auth_token")
+                }
+            }).then(function successCallback(response) {
+                localStorageService.remove("auth_token");
+                $location.path("/signin");
+            }, function errorCallback(response) {
+                console.log("Error" + response);
+            });
+        };
+        $scope.openLeftMenu = function () {
+            $mdSidenav('left').toggle();
         };
     })
     .controller("initController", function ($scope, localStorageService, $location) {
 
-
     })
-    .controller("eventsController", function ($scope, $http, $mdDialog, $resource, localStorageService, $mdSidenav) {
-        /*$http.get(host + "?option=feed")
-            .success(function (reply) {
-                $scope.events = reply;
-            })
-            .error(function (reply) {
-                console.log(reply)
-            });*/
-        Events = $resource("http://limitless-gorge-37168.herokuapp.com/api/events/:id/?format=json", {
-            id: "@id"
+    .controller("eventsController", function ($scope, $http, $mdDialog, localStorageService) {
+        $http({
+            method: 'GET',
+            url: 'http://limitless-gorge-37168.herokuapp.com/api/events/',
+            headers: {
+                'Authorization': 'Token ' + localStorageService.get("auth_token")
+            }
+        }).then(function successCallback(response) {
+            $scope.events = response.data;
+        }, function errorCallback(response) {
+            console.log("Error" + response);
         });
-        $scope.events = Events.query();
+
         $scope.showFilter = function (ev) { //Configurar para filtrar los eventos
             var confirm = $mdDialog.confirm()
                 .clickOutsideToClose(true)
@@ -45,24 +59,32 @@ angular.module("grupoinn")
                 //Cancelar
             });
         };
-        $scope.openLeftMenu = function () {
-            $mdSidenav('left').toggle();
-        };
     })
     .controller("eventController", function ($scope, $http, $routeParams, localStorageService, $resource) {
-        Events = $resource("http://limitless-gorge-37168.herokuapp.com/api/events/:id/?format=json", {
-            id: "@id"
+        $http({
+            method: 'GET',
+            url: 'http://limitless-gorge-37168.herokuapp.com/api/events/' + $routeParams.id + '/',
+            headers: {
+                'Authorization': 'Token ' + localStorageService.get("auth_token")
+            }
+        }).then(function successCallback(response) {
+            $scope.event = response.data;
+        }, function errorCallback(response) {
+            console.log("Error" + response);
         });
-        $scope.event = Events.get({
-            id: $routeParams.id
+        $http({
+            method: 'GET',
+            url: 'http://limitless-gorge-37168.herokuapp.com/api/events/' + $routeParams.id + '/groups/',
+            headers: {
+                'Authorization': 'Token b492e0efa86edcd341358b511e42f42f11083fe2'
+            }
+        }).then(function successCallback(response) {
+            $scope.groups = response.data;
+            console.log(response.data);
+        }, function errorCallback(response) {
+            console.log("Error" + response);
         });
-        /*$http.get(host + "?option=detail&idEvent=" + $routeParams.id)
-            .success(function (reply) {
-                $scope.event = reply;
-            })
-            .error(function (reply) {
-                console.log(reply);
-            });*/
+
         $scope.join = function () {
             //Aqui se une al evento
             $http.post("http://limitless-gorge-37168.herokuapp.com/api/groups/", {
@@ -80,8 +102,19 @@ angular.module("grupoinn")
     .controller("reservationController", function ($scope) {
 
     })
-    .controller("profileController", function ($scope, $http, $mdDialog) {
-        $http.get(host + "?option=profile&idUser=1")
+    .controller("profileController", function ($scope, $http, $mdDialog, localStorageService) {
+        $http({
+            method: 'GET',
+            url: 'http://limitless-gorge-37168.herokuapp.com/api/auth/me/',
+            headers: {
+                'Authorization': 'Token ' + localStorageService.get("auth_token")
+            }
+        }).then(function successCallback(response) {
+            console.log(response.data);
+        }, function errorCallback(response) {
+            console.log("Error" + response);
+        });
+        /*$http.get(host + "?option=profile&idUser=1")
             .success(function (reply) {
                 $scope.profile = {
                     name: reply.names,
@@ -94,7 +127,7 @@ angular.module("grupoinn")
             })
             .error(function (reply) {
                 console.log(reply);
-            });
+            });*/
         $scope.addLike = function () {
             var i = document.getElementById("Likes").value;
             $scope.likes.push({
@@ -134,7 +167,7 @@ angular.module("grupoinn")
             $location.path("/events");
         } else {
             $scope.login = function () {
-                $http.post("http://limitless-gorge-37168.herokuapp.com/api/auth/login/?format=json", { //{username: "sairth19", password: "term2tjd1992nys"}
+                $http.post("http://limitless-gorge-37168.herokuapp.com/api/auth/login/", { //{username: "sairth19", password: "term2tjd1992nys"}
                         username: $scope.user.name,
                         password: $scope.user.pass
                     })
@@ -147,4 +180,20 @@ angular.module("grupoinn")
                     });
             };
         }
+    })
+    .controller("registerController", function ($scope, $http, $location) {
+        $http({
+            method: 'POST',
+            url: 'http://limitless-gorge-37168.herokuapp.com/api/auth/register/',
+            data: {
+                username: $scope.user.name,
+                password: $scope.user.pass,
+                email: $scope.user.mail
+            }
+        }).then(function successCallback(response) {
+            console.log("Exito" + response);
+
+        }, function errorCallback(response) {
+            console.log("Error" + response);
+        });
     });
