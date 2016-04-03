@@ -1,16 +1,33 @@
 <div layout="row">
     <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop md-whiteframe="4">
-        <md-button ng-href="#/events/" class="md-raised md-accent" aria-label="Eventos">
-            Eventos
-        </md-button>
-        <md-button ng-href="#/reservation/" class="md-raised md-accent" aria-label="Reservas" hide>
-            Reservas
-        </md-button>
+        <md-toolbar class="md-tall">
+            <span flex></span>
+            <md-list flex>
+                <md-list-item class="md-2-line" ng-href="#/user/">
+                    <img ng-src="http://grupoinn.com.co/images/perfil-1.png" class="md-avatar" />
+                    <div class="md-list-item-text" layout="column">
+                        <h3>Nombre</h3>
+                        <h4>Algo</h4>
+                    </div>
+                </md-list-item>
+            </md-list>
+        </md-toolbar>
+        <md-list>
+            <md-list-item ng-href="#/events/">
+                <span>Eventos</span>
+            </md-list-item>
+            <md-list-item ng-href="#/groups/" hide>
+                <span>Grupos</span>
+            </md-list-item>
+            <md-list-item ng-href="#/reservations/" hide>
+                <span>Reservas</span>
+            </md-list-item>
+        </md-list>
     </md-sidenav>
     <md-content flex>
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <md-button ng-href="#/events/" class="md-icon-button" aria-label="User" >
+                <md-button ng-href="#/events/" class="md-icon-button" aria-label="User">
                     <i class="fa fa-arrow-left fa-2x primary-text"></i>
                 </md-button>
                 <a href="#/"><h2><span class="primary-text">Grupo inn</span></h2></a>
@@ -44,30 +61,36 @@
             </div>
         </md-toolbar>
         <md-content>
-            <md-card style="margin: 0;">
-                <img class="event-img" ng-src="{{event.url_image}}" class="md-card-image" alt="{{event.name}}">
-                <md-card-title>
-                    <md-card-title-text>
-                        <span class="md-headline">{{event.name}}</span>
-                    </md-card-title-text>
-                </md-card-title>
-                <md-card-actions layout="row" layout-align="start center">
-                    <!--<md-button class="md-raised">Invitar</md-button>-->
-                    <md-button ng-click="join()" class="md-raised">Reservar</md-button>
-                </md-card-actions>
-                <md-card-content>
-                    <p>{{event.description}}</p>
-                </md-card-content>
-            </md-card>
-            <md-list>
-                <md-subheader class="md-no-sticky">Participantes {{event.participants.length}}/{{event.quota}}</md-subheader>
-                <md-list-item class="md-1-line" ng-repeat="item in event.participants">
-                    <img class="md-avatar" ng-src="{{item.image}}">
-                    <div class="md-list-item-text">
-                        <h3>{{item.names}}</h3>
-                    </div>
-                </md-list-item>
-            </md-list>
+            <div ng-if="!event" layout="row" layout-sm="column" layout-align="space-around">
+                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+            </div>
+            <div id="event_detail" ng-if="event">
+                <md-card style="margin: 0;">
+                    <img class="event-img" ng-src="{{event.image}}" class="md-card-image" alt="{{event.name}}">
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">{{event.name}}</span>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <md-card-actions layout="row" layout-align="start center">
+                        <!--<md-button class="md-raised">Invitar</md-button>-->
+                        <md-button ng-click="join()" class="md-raised">Reservar</md-button>
+                    </md-card-actions>
+                    <md-card-content>
+                        <p>{{event.description}}</p>
+                    </md-card-content>
+                </md-card>
+                <md-list>
+                    <md-subheader class="md-no-sticky">Participantes {{event.quota_max - event.quota_ava}}/{{event.quota_max}}</md-subheader>
+                    <span ng-if="groups.length === 0">A&uacute;n no hay grupos. Arma t&uacute; el primero.</span>
+                    <md-list-item class="md-1-line" ng-repeat="group in groups">
+                        <!--<img class="md-avatar" ng-src="{{item.image}}">-->
+                        <div class="md-list-item-text">
+                            <h3>Item group.id</h3>
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </div>
         </md-content>
     </md-content>
 

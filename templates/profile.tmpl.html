@@ -1,11 +1,28 @@
 <div layout="row">
     <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop md-whiteframe="4">
-        <md-button ng-href="#/events/" class="md-raised md-accent" aria-label="Eventos">
-            Eventos
-        </md-button>
-        <md-button ng-href="#/reservation/" class="md-raised md-accent" aria-label="Reservas" hide>
-            Reservas
-        </md-button>
+        <md-toolbar class="md-tall">
+            <span flex></span>
+            <md-list flex>
+                <md-list-item class="md-2-line" ng-href="#/user/">
+                    <img ng-src="http://grupoinn.com.co/images/perfil-1.png" class="md-avatar" />
+                    <div class="md-list-item-text" layout="column">
+                        <h3>Nombre</h3>
+                        <h4>Algo</h4>
+                    </div>
+                </md-list-item>
+            </md-list>
+        </md-toolbar>
+        <md-list>
+            <md-list-item ng-href="#/events/">
+                <span>Eventos</span>
+            </md-list-item>
+            <md-list-item ng-href="#/groups/" hide>
+                <span>Grupos</span>
+            </md-list-item>
+            <md-list-item ng-href="#/reservations/" hide>
+                <span>Reservas</span>
+            </md-list-item>
+        </md-list>
     </md-sidenav>
     <md-content flex>
         <md-toolbar>
@@ -44,6 +61,9 @@
             </div>
         </md-toolbar>
         <md-content>
+           <!--<div ng-if="!profile" layout="row" layout-sm="column" layout-align="space-around">
+                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+            </div>-->
             <div id="profile" ng-cloak>
                 <md-content>
                     <img ng-src="{{profile.image}}" alt="..." class="img-circle">

@@ -8,6 +8,7 @@
     color: white;
 }
 
+
 #profile {
     padding-top: 5px;
     text-align: center;
@@ -39,6 +40,12 @@
     transition: all 0.2s ease-in-out;
 }
 
+#form header{
+    text-align: center;
+    padding: 0;
+    border-bottom: 5px solid #FFC107;
+}
+
 #form md-input-container {
     width: 90%;
     display: block;
@@ -47,7 +54,6 @@
 
 .form-actions{
     width: 90%;
-    display: block;
     margin-left: 5%;
 }
 
