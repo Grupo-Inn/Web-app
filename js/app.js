@@ -33,7 +33,7 @@ angular.module("grupoinn", ["ngRoute", "ngMaterial", "LocalStorageModule", "ngRe
             .when("/register/", {
                 controller: "registerController",
                 templateUrl: "templates/register.tmpl.html"
-            })
+            });
     })
     .config(function ($mdThemingProvider) {
         $mdThemingProvider.theme('default')

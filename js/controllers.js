@@ -1,6 +1,6 @@
 /*JS_for_Grupo_inn = {Author: Edgar Castro, Mail: edgar.castro.villa@outlook.com, Version: 0.1}*/
-//var host = "http://localhost/grupoinn/mobile/php/manage.php";
-var host = "http://grupoinn.com.co/php/manage.php";
+//var host = "http://grupoinn.com.co/php/manage.php";
+var host = "http://limitless-gorge-37168.herokuapp.com/api";
 angular.module("grupoinn")
     .controller("parentController", function ($scope, localStorageService, $location, $mdSidenav, $http) {
         /*if (localStorageService.get("auth_token")) {
@@ -13,7 +13,7 @@ angular.module("grupoinn")
         $scope.signout = function () {
             $http({
                 method: 'POST',
-                url: 'http://limitless-gorge-37168.herokuapp.com/api/auth/logout/',
+                url: host + '/auth/logout/',
                 headers: {
                     'Authorization': 'Token ' + localStorageService.get("auth_token")
                 }
@@ -34,7 +34,7 @@ angular.module("grupoinn")
     .controller("eventsController", function ($scope, $http, $mdDialog, localStorageService, $location) {
         $http({
             method: 'GET',
-            url: 'http://limitless-gorge-37168.herokuapp.com/api/events/',
+            url: host + '/events/',
             headers: {
                 'Authorization': 'Token ' + localStorageService.get("auth_token")
             }
@@ -64,7 +64,7 @@ angular.module("grupoinn")
     .controller("eventController", function ($scope, $http, $routeParams, localStorageService, $resource) {
         $http({
             method: 'GET',
-            url: 'http://limitless-gorge-37168.herokuapp.com/api/events/' + $routeParams.id + '/',
+            url: host + '/events/' + $routeParams.id + '/',
             headers: {
                 'Authorization': 'Token ' + localStorageService.get("auth_token")
             }
@@ -75,7 +75,7 @@ angular.module("grupoinn")
         });
         $http({
             method: 'GET',
-            url: 'http://limitless-gorge-37168.herokuapp.com/api/events/' + $routeParams.id + '/groups/',
+            url: host + '/events/' + $routeParams.id + '/groups/',
             headers: {
                 'Authorization': 'Token ' + localStorageService.get("auth_token")
             }
@@ -88,7 +88,7 @@ angular.module("grupoinn")
 
         $scope.join = function () {
             //Aqui se une al evento
-            $http.post("http://limitless-gorge-37168.herokuapp.com/api/groups/", {
+            $http.post(host + "/groups/", {
                     event: 1
                 })
                 //$http.get(host + "?option=join&idUser=" + localStorageService.get("data-user") + "&idEvent=" + $routeParams.id)
@@ -106,7 +106,7 @@ angular.module("grupoinn")
     .controller("profileController", function ($scope, $http, $mdDialog, localStorageService) {
         $http({
             method: 'GET',
-            url: 'http://limitless-gorge-37168.herokuapp.com/api/auth/me/',
+            url: host + '/auth/me/',
             headers: {
                 'Authorization': 'Token ' + localStorageService.get("auth_token")
             }
@@ -154,7 +154,7 @@ angular.module("grupoinn")
             $location.path("/events/");
         } else {
             $scope.login = function () {
-                $http.post("http://limitless-gorge-37168.herokuapp.com/api/auth/login/", { //{username: "sairth19", password: "term2tjd1992nys"}
+                $http.post(host + "/auth/login/", {
                         username: $scope.user.name,
                         password: $scope.user.pass
                     })
@@ -172,7 +172,7 @@ angular.module("grupoinn")
         $scope.register = function () {
             $http({
                 method: 'POST',
-                url: 'http://limitless-gorge-37168.herokuapp.com/api/auth/register/',
+                url: host + '/auth/register/',
                 data: {
                     username: $scope.user.name,
                     password: $scope.user.pass,
