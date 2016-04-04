@@ -61,7 +61,7 @@ angular.module("grupoinn")
             });
         };
     })
-    .controller("eventController", function ($scope, $http, $routeParams, localStorageService, $resource) {
+    .controller("eventController", function ($scope, $http, $routeParams, localStorageService, $mdDialog) {
         $http({
             method: 'GET',
             url: host + '/events/' + $routeParams.id + '/',
@@ -86,9 +86,20 @@ angular.module("grupoinn")
             console.log("Error" + response);
         });
 
-        $scope.join = function () {
+        $scope.join = function (ev) {
+            $mdDialog.show({
+                    templateUrl: 'templates/reservdialog.tmpl.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true
+                })
+                .then(function (answer) {
+                    console.log('You said the information was.');
+                }, function () {
+                    //cancelar reserva
+                });
             //Aqui se une al evento
-            $http.post(host + "/groups/", {
+            /*$http.post(host + "/groups/", {
                     event: 1
                 })
                 //$http.get(host + "?option=join&idUser=" + localStorageService.get("data-user") + "&idEvent=" + $routeParams.id)
@@ -97,7 +108,7 @@ angular.module("grupoinn")
                 })
                 .error(function (reply) {
                     console.log(reply);
-                });
+                });*/
         };
     })
     .controller("reservationController", function ($scope) {

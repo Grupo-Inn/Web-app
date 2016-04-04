@@ -13,7 +13,7 @@
             <form ng-submit="confirm()">
                 <md-input-container>
                     <label>Grupos</label>
-                    <md-select>
+                    <md-select ng-model="myGroup">
                        <md-option value="0">Nuevo grupo</md-option>
                         <md-option ng-repeat="group in groups" value="{{group.id}}">Grupo {{grupo.id}}</md-option>
                     </md-select>
@@ -23,7 +23,7 @@
                     <input type="number" required>
                 </md-input-container>
                 <md-button class="md-raised" type="submit">Registrarse</md-button>
-                <md-button class="md-raised" ng-click="cancel()"></md-button>
+                <md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
             </form>
         </div>
     </md-dialog-content>
