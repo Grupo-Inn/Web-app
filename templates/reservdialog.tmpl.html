@@ -1,29 +1,32 @@
 <md-dialog>
     <md-toolbar>
         <div class="md-toolbar-tools">
-            <h2>Reservar</h2>
+            <h2 class="primary-text">Reservar</h2>
             <span flex></span>
             <md-button ng-click="cancel()" class="md-icon-button" aria-label="User" hide-gt-md>
-                <i class="fa fa-close fa-2x"></i>
+                <i class="fa fa-close fa-2x primary-text"></i>
             </md-button>
         </div>
     </md-toolbar>
     <md-dialog-content>
-        <div class="md-dialog-content">
+        <div id="form" layout="column" class="md-dialog-content">
+           <header><h3>Realiza tu reserva aquí</h3></header>
             <form ng-submit="confirm()">
-                <md-input-container>
+                <md-input-container flex>
                     <label>Grupos</label>
                     <md-select ng-model="myGroup">
-                       <md-option value="0">Nuevo grupo</md-option>
-                        <md-option ng-repeat="group in groups" value="{{group.id}}">Grupo {{grupo.id}}</md-option>
+                        <md-option value="0">Nuevo grupo</md-option>
+                        <md-option ng-repeat="group in groups" value="{{group.id}}">Grupo {{group.id}}</md-option>
                     </md-select>
                 </md-input-container>
-                <md-input-container>
+                <md-input-container flex>
                     <label>Cantidad</label>
-                    <input type="number" required>
+                    <input type="number" ng-model="assistants" required>
                 </md-input-container>
-                <md-button class="md-raised" type="submit">Registrarse</md-button>
-                <md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
+                <div class="form-actions" layout="row" flex>
+                    <md-button class="md-raised" type="submit">Registrarse</md-button>
+                    <md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
+                </div>
             </form>
         </div>
     </md-dialog-content>

@@ -61,7 +61,7 @@ angular.module("grupoinn")
             });
         };
     })
-    .controller("eventController", function ($scope, $http, $routeParams, localStorageService, $mdDialog) {
+    .controller("eventController", function ($scope, $http, $routeParams, localStorageService, $mdDialog, $mdMedia) {
         $http({
             method: 'GET',
             url: host + '/events/' + $routeParams.id + '/',
@@ -81,34 +81,80 @@ angular.module("grupoinn")
             }
         }).then(function successCallback(response) {
             $scope.groups = response.data;
-            console.log(response.data);
         }, function errorCallback(response) {
             console.log("Error" + response);
         });
 
         $scope.join = function (ev) {
+            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'));
             $mdDialog.show({
+                    controller: newReservController,
                     templateUrl: 'templates/reservdialog.tmpl.html',
                     parent: angular.element(document.body),
                     targetEvent: ev,
-                    clickOutsideToClose: true
+                    clickOutsideToClose: true,
+                    fullscreen: useFullScreen
                 })
-                .then(function (answer) {
-                    console.log('You said the information was.');
+                .then(function (data) {
+                    console.log("este dentro del evento" + data.group);
+                    if (data.group == 0) {
+                        $http({
+                            method: 'POST',
+                            url: host + '/groups/',
+                            data: {
+                                event: $routeParams.id
+                            },
+                            headers: {
+                                'Authorization': 'Token ' + localStorageService.get("auth_token")
+                            }
+
+                        }).then(function successCallback(response) {
+                            console.log("Exito con el grupo" + response);
+                            $http({
+                                method: 'POST',
+                                url: host + '/reservations/',
+                                data: {
+                                    assistants: data.assistant,
+                                    group: response.data.id
+                                },
+                                headers: {
+                                    'Authorization': 'Token ' + localStorageService.get("auth_token")
+                                }
+
+                            }).then(function successCallback(response) {
+                                console.log("Exito con la reserva" + response);
+
+
+                            }, function errorCallback(response) {
+                                console.log("Error con la reserva" + response);
+                            });
+
+                        }, function errorCallback(response) {
+                            console.log("Error con el grupo" + response);
+                        });
+                    } else {
+                        $http({
+                            method: 'POST',
+                            url: host + '/reservations/',
+                            data: {
+                                assistants: data.assistants,
+                                group: data.group
+                            },
+                            headers: {
+                                'Authorization': 'Token ' + localStorageService.get("auth_token")
+                            }
+
+                        }).then(function successCallback(response) {
+                            console.log("Exito con la reserva" + response);
+
+
+                        }, function errorCallback(response) {
+                            console.log("Error con la reserva" + response);
+                        });
+                    }
                 }, function () {
                     //cancelar reserva
                 });
-            //Aqui se une al evento
-            /*$http.post(host + "/groups/", {
-                    event: 1
-                })
-                //$http.get(host + "?option=join&idUser=" + localStorageService.get("data-user") + "&idEvent=" + $routeParams.id)
-                .success(function (reply) {
-                    console.log(reply);
-                })
-                .error(function (reply) {
-                    console.log(reply);
-                });*/
         };
     })
     .controller("reservationController", function ($scope) {
@@ -197,3 +243,29 @@ angular.module("grupoinn")
             });
         };
     });
+
+function newReservController($scope, $mdDialog, $http, $routeParams, localStorageService) {
+    $http({
+        method: 'GET',
+        url: host + '/events/' + $routeParams.id + '/groups/',
+        headers: {
+            'Authorization': 'Token ' + localStorageService.get("auth_token")
+        }
+    }).then(function successCallback(response) {
+        $scope.groups = response.data;
+    }, function errorCallback(response) {
+        console.log("Error" + response);
+    });
+    $scope.hide = function () {
+        $mdDialog.hide();
+    };
+    $scope.cancel = function () {
+        $mdDialog.cancel();
+    };
+    $scope.confirm = function () {
+        $mdDialog.hide({
+            group: $scope.myGroup,
+            assistants: $scope.assistants
+        });
+    };
+}
